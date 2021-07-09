@@ -14,45 +14,71 @@
         <title>MVC Users</title>
     </head>
     <body>
-
+        
+        
         <h1>MVC Users</h1>
 
+        <ul>
+
+            <c:forEach items="${users}" var="account">
+                <li><a href="users?action=view&amp;email=${account.email}">${account.email}</a><br></li>
+                </c:forEach>
+        </ul>
+        
+        <c:if test="${selectedAcc eq null}">
         <h3>Add User</h3>
-        <form method="POST" action="">
-            <label>Email: </label><br>
-            <input type="text" name="email" value="">
-            <label>First Name: </label><br>
-            <input type="text" name="firstName" value="">
-            <label>Last Name: </label><br>
-            <input type="text" name="lastName" value="">
-            <label>Password: </label><br>
-            <input type="text" name="password" value="">
+        <form method="POST" action="users">
+            <label>Email: </label>
+            <input type="text" name="email" value=""><br>
+            <label>First Name: </label>
+            <input type="text" name="firstName" value=""><br>
+            <label>Last Name: </label>
+            <input type="text" name="lastName" value=""><br>
+            <label>Password: </label>
+            <input type="text" name="password" value=""><br>
 
             <label>Choose a role: </label>
             <select name="role">
                 <option value="systemAdmin">System Admin</option>
                 <option value="regularUser">Regular User</option>
                 <option value="companyAdmin">Company Admin</option>
-            </select>
+            </select><br>
             
-            <label>Status: </label><br>
-            <input type="checkbox" name="status" value="">
+            <label>Status: </label>
+            <input type="checkbox" name="status" value=""><br>
             
             <input type="hidden" name="action" value="add">
             <input type="submit" value="Add">
         </form>
+</c:if>
+        
+        <!--<h3>Manage Users</h3>-->
 
-        <h3>Manage Users</h3>
-
+        <c:if test="${selectedAcc ne null}">
         <h3>Edit User</h3>
-        <form method="POST" action="">
-            <input type="text" name="editEmail" value="">
-            <input type="text" name="editFirstName" value="">
-            <input type="text" name="editLastName" value="">
-            <input type="text" name="editRole" value="">
-
-            <input type="submit" value="Save">
-            <input type="submit" value="Cancel">
+        <form method="POST" action="users">
+            <label>Email: </label>
+            <input type="text" name="editEmail" value="${selectedAcc.email}" disabled="true"><br>
+            <label>First Name: </label>
+            <input type="text" name="editFirstName" value="${selectedAcc.firstName}"><br>
+            <label>Last Name: </label><br>
+            <input type="text" name="editLastName" value="${selectedAcc.lastName}"><br>
+             <label>The role: </label><br>
+             <input type="text" name="editRole" value="${selectedAcc.role}"><br>
+            
+           
+            <input type="hidden" name="action" value="edit">
+            <input type="submit" value="Edit">
+            <!-- maybe for cancel we can jus in the servlet redirect it back to the jsp but i donno 
+            <!--<input type="submit" value="Cancel">-->
+            
         </form>
+            
+            <form action="users" method="POST">
+                <input type="hidden" name="action" value="delete">
+             <input type="hidden" name="" value="${selectedAcc.email}">
+                <input type="submit" value="Delete">
+            </form>
+        </c:if>
     </body>
 </html>
